@@ -1,3 +1,18 @@
+import reddit from './redditapi';
+
+//configuration of cors
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+};
+
+app.configure(function() {
+    app.use(allowCrossDomain);
+});
+
+// start of program
+
 const searchForm = document.getElementById('search-form');
 const searchBtn = document.getElementById('search-btn');
 const searchInput = document.getElementById('search-input');
@@ -14,6 +29,10 @@ searchForm.addEventListener('submit', e => {
         // Show message
         showMessage('Please add a search term', 'alert-danger');
     }
+    searchInput.value = ' ';
+
+    //Reddit Search
+    reddit.search(searchTerm, searchLimit, sortBy);
 
     e.preventDefault();
 });
@@ -37,5 +56,5 @@ function showMessage(message, className) {
     // Timeout after 3 sec
     setTimeout(function() {
         document.querySelector('.alert').remove();
-    }, 3000);
+    }, 2600);
 }

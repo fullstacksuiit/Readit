@@ -117,7 +117,41 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"index.js":[function(require,module,exports) {
+})({"redditapi.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  search: function search(searchTerm, searchLimit, sortBy) {
+    fetch("http://wwww.reddit.com/search.json?q=".concat(searchTerm)).then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      return console.log(data);
+    });
+  }
+};
+exports.default = _default;
+},{}],"index.js":[function(require,module,exports) {
+"use strict";
+
+var _redditapi = _interopRequireDefault(require("./redditapi"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//configuration of cors
+var allowCrossDomain = function allowCrossDomain(req, res, next) {
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+};
+
+app.configure(function () {
+  app.use(allowCrossDomain);
+}); // start of program
+
 var searchForm = document.getElementById('search-form');
 var searchBtn = document.getElementById('search-btn');
 var searchInput = document.getElementById('search-input');
@@ -133,6 +167,10 @@ searchForm.addEventListener('submit', function (e) {
     // Show message
     showMessage('Please add a search term', 'alert-danger');
   }
+
+  searchInput.value = ' '; //Reddit Search
+
+  _redditapi.default.search(searchTerm, searchLimit, sortBy);
 
   e.preventDefault();
 }); // Show Message Function
@@ -153,9 +191,9 @@ function showMessage(message, className) {
 
   setTimeout(function () {
     document.querySelector('.alert').remove();
-  }, 3000);
+  }, 2600);
 }
-},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./redditapi":"redditapi.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -183,7 +221,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49782" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51424" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
